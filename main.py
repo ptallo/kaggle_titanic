@@ -1,16 +1,18 @@
-# This is a sample Python script.
-
-# Press Shift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
+import pandas as pd
+import numpy as np
 
 
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
+def load_train_data() -> pd.DataFrame:
+    with open("data/train.csv", "r+") as f:
+        return pd.read_csv(f)
+
+def clean_data(input_df: pd.DataFrame) -> pd.DataFrame:
+    clean_df = input_df[['PassengerId', 'Survived', 'Age', 'Pclass', 'SibSp', 'Parch', 'Fare']]
+    clean_df.dropna(how="any")
+    return clean_df
 
 
-# Press the green button in the gutter to run the script.
-if __name__ == '__main__':
-    print_hi('PyCharm')
-
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+if __name__ == "__main__":
+    data = load_train_data()
+    data = clean_data(data)     
+    print(data.describe())
